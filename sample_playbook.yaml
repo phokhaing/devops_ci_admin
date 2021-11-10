@@ -1,0 +1,13 @@
+---
+- name: Sample playbook
+  hosts: ansible-target # server name at ansible inventory.txt
+  become: true # become root user
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: latest
+    - name: run httpd
+      service:
+        name: httpd
+        state: started

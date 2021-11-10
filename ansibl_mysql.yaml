@@ -1,0 +1,40 @@
+---
+- name: Running MySQl Database as Docker Container using Ansible
+  hosts: ansible-target
+  become: True
+  vars:
+    db_volume: db_data
+  tasks:
+  - name: Stop & Remove mysql_db Containers
+    docker_container:
+     name: mysql_db
+     state: absent
+  - name: Stop & Remove phpmyadmin Containers
+    docker_container:
+     name: phpmyadmin
+     state: absent
+  - name: Luanch MySql Container
+    docker_container:
+     name: mysql_db
+     image: mysql
+     restart: true
+     ports:
+      - "3306:3306"
+     env:
+      MYSQL_DATABASE: "ci_admin"
+      #MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: "root"
+     volumes:
+       - "{{ db_volume }}:/var/lib/mysql"
+  - name: Run phpmyadmin container
+    docker_container:
+     name: phpmyadmin
+     image: phpmyadmin/phpmyadmin
+     ports:
+      - '8080:80'
+     restart: true
+     env:
+      PMA_HOST: mysql_db
+      #MYSQL_ROOT_PASSWORD: ""

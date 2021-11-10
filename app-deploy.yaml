@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  labels:
+    app: ci_admin_app
+spec:
+  replicas: 2 # 1 pod
+  selector:
+    matchLabels:
+      app: ci_admin_app # match below pod_label_name
+  template:
+    metadata:
+      name: app-pod # pod name
+      labels:
+        app: ci_admin_app # pod_label_name
+    spec:
+      containers:
+        - name: app-containers
+          image: phokhaing/ci_admin_app:TAG_VERSION
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service # service_name
+spec:
+  selector:
+    app: ci_admin_app # must match pod_label_name of app-deploy
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30005 # nodePort rang is 30000-32767
