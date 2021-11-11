@@ -5,7 +5,7 @@ metadata:
   labels:
     app: ci_admin_app
 spec:
-  replicas: 2 # 1 pod
+  replicas: 2 # 2 pods
   selector:
     matchLabels:
       app: ci_admin_app # match below pod_label_name
