@@ -75,9 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'mysql-service',
-	'username' => 'root',
-	'password' => '',
+	// 'hostname' => 'mysql-service', // connect with docker containers
+	'hostname' => 'hr-db.crekepvmcllg.ap-southeast-1.rds.amazonaws.com' // connect with aws rds
+	'username' => 'admin',
+	'password' => 'admin123',
 	'database' => 'ci_admin',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
